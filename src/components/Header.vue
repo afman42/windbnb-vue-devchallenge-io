@@ -14,7 +14,7 @@ const props = defineProps({
 </script>
 <template>
   <div class="header">
-    <img :src="imgWindbnb" />
+    <img :src="imgWindbnb" class="header-img" />
     <div class="header-search" @click="props.clickShowModal">
       <h4>{{ props.value }} Finland</h4>
       <div class="divider">
@@ -34,8 +34,24 @@ const props = defineProps({
 .header {
   display: flex;
   justify-content: space-between;
+  flex-direction: row;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+  @media screen and (max-width: 375px) {
+    display: block;
+    margin-top: -20px;
+  }
+  .header-img {
+    @media screen and (max-width: 375px) {
+      width: 80px;
+      height: 80px;
+    }
+  }
+
   .header-search {
     cursor: pointer;
+    margin-left: 20px;
     h4 {
       font-family: "Mulish", sans-serif;
       font-weight: 400;

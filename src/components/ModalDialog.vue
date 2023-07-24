@@ -1,7 +1,7 @@
 <script>
 import { watch, ref } from "vue";
 import { onClickOutside } from "@vueuse/core";
-import { mdiMapMarker, mdiMagnify, mdiCheck } from "@mdi/js";
+import { mdiMapMarker, mdiMagnify, mdiCheck, mdiClose } from "@mdi/js";
 import SvgIcon from "@jamescoyle/vue-icon";
 import Counter from "./Counter.vue";
 const props = {
@@ -47,7 +47,12 @@ export default {
     const path = mdiMapMarker;
     const pathSearch = mdiMagnify;
     const pathChecklist = mdiCheck;
+    const pathClose = mdiClose;
     function closeModal() {
+      transFade.value = {
+        location: false,
+        age: false,
+      };
       emit("close");
     }
 
@@ -72,6 +77,7 @@ export default {
       transFade,
       pathSearch,
       pathChecklist,
+      pathClose,
     };
   },
 };
@@ -105,11 +111,26 @@ export default {
               class="modal-dialog"
               aria-labelledby="modal-headline"
             >
+              <div class="modal-dialog-close">
+                <h6>Edit Your Search</h6>
+                <svg-icon
+                  type="mdi"
+                  :path="pathClose"
+                  :size="24"
+                  style="cursor: pointer"
+                  @click="closeModal"
+                />
+              </div>
               <div class="modal-dialog-box">
                 <div
                   class="modal-dialog-location"
-                  @mouseover="transFade.location = true"
-                  @mouseleave="transFade.location = false"
+                  @click="
+                    transFade.location = true;
+                    transFade.age = false;
+                  "
+                  :style="{
+                    border: transFade.location ? '1px solid black' : '',
+                  }"
                 >
                   <h6>Location</h6>
                   <h6>{{ value }}, Finland</h6>
@@ -152,8 +173,13 @@ export default {
                 </div>
                 <div
                   class="modal-dialog-guest"
-                  @mouseover="transFade.age = true"
-                  @mouseleave="transFade.age = false"
+                  @click="
+                    transFade.location = false;
+                    transFade.age = true;
+                  "
+                  :style="{
+                    border: transFade.age ? '1px solid black' : '',
+                  }"
                 >
                   <h6>Guests</h6>
                   <h6>Add guests</h6>
@@ -179,7 +205,10 @@ export default {
                   </div>
                 </div>
                 <div class="modal-dialog-button">
-                  <button class="modal-dialog-button-with-icon" @click="closeModal">
+                  <button
+                    class="modal-dialog-button-with-icon"
+                    @click="closeModal"
+                  >
                     <svg-icon
                       type="mdi"
                       :path="pathSearch"
@@ -242,7 +271,27 @@ export default {
       height: 400px;
       overflow: hidden;
       padding: 50px 80px 10px 80px;
+      @media screen and (max-width: 375px) {
+        padding: 10px 10px;
+        height: 500px;
+      }
+      .modal-dialog-close {
+        display: none;
+        @media screen and (max-width: 375px) {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 10px;
+          h6 {
+            font-family: "Mulish", sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+          }
+        }
+      }
       .modal-dialog-box {
+        @media screen and (max-width: 375px) {
+          flex-direction: column;
+        }
         width: inherit;
         height: 100%;
         display: flex;
@@ -255,6 +304,9 @@ export default {
           -webkit-box-shadow: 1px 0px 5px -4px rgba(0, 0, 0, 0.75);
           -moz-box-shadow: 1px 0px 5px -4px rgba(0, 0, 0, 0.75);
           width: 33%;
+          @media screen and (max-width: 375px) {
+            width: 100%;
+          }
           height: 60px;
           h6:nth-child(1) {
             font-family: "Mulish", sans-serif;
@@ -273,9 +325,17 @@ export default {
             height: 100%;
             margin: 50px 0px;
             display: flex;
+
+            @media screen and (max-width: 375px) {
+              margin: 100px 0px;
+            }
             flex-direction: column;
             .modal-dialog-fill-box-location-text {
               padding-bottom: 30px;
+
+              @media screen and (max-width: 375px) {
+                padding-bottom: 30px;
+              }
               width: 100%;
               display: flex;
               color: #4f4f4f;
@@ -295,6 +355,9 @@ export default {
           }
         }
         .modal-dialog-guest {
+          @media screen and (max-width: 375px) {
+            width: 100%;
+          }
           width: 33%;
           height: 60px;
           cursor: pointer;
@@ -303,6 +366,7 @@ export default {
           -moz-box-shadow: 1px 0px 5px -4px rgba(0, 0, 0, 0.75);
           padding: 10px 10px;
           border-radius: 10px;
+
           h6:nth-child(1) {
             font-family: "Mulish", sans-serif;
             font-size: 12px;
@@ -328,6 +392,10 @@ export default {
           }
         }
         .modal-dialog-button {
+          @media screen and (max-width: 375px) {
+            margin-top: 280px;
+            margin-left: 100px;
+          }
           width: 33%;
           height: 60px;
           display: flex;

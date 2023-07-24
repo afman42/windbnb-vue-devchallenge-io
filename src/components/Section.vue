@@ -43,6 +43,10 @@ const props = defineProps({
 <style lang="scss">
 .section-container {
   margin: 70px 0px 10px 0px;
+
+  @media screen and (max-width: 375px) {
+    margin: 40px 0px 10px 0px;
+  }
   display: flex;
   justify-content: space-between;
   h1 {
@@ -114,6 +118,13 @@ const props = defineProps({
     width: 370px;
     height: 267px;
     border-radius: 10px;
+    @media screen and (max-width: 768px) {
+      width: 670px;
+    }
+    @media screen and (max-width: 375px) {
+      width: 340px;
+      height: 200px;
+    }
   }
 }
 </style>

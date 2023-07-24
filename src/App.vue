@@ -78,5 +78,11 @@ function incOrDecValueNumber(type) {
 
 .container {
   margin: 30px 100px;
+  @media screen and (max-width: 768px) {
+    margin: 30px 30px;
+  }
+  @media screen and (max-width: 375px) {
+    margin: 5px 10px;
+  }
 }
 </style>
