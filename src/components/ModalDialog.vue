@@ -250,6 +250,7 @@ export default {
   .modal-container {
     display: flex;
     top: -300px;
+    height: 80%;
     .enter-active {
       transition: top 1s ease-out;
     }
@@ -268,12 +269,12 @@ export default {
       display: flex;
       flex-direction: column;
       width: 100%;
-      height: 400px;
+      height: 80%;
       overflow: hidden;
       padding: 50px 80px 10px 80px;
       @media screen and (max-width: 375px) {
         padding: 10px 10px;
-        height: 500px;
+        height: 100%;
       }
       .modal-dialog-close {
         display: none;
@@ -296,6 +297,7 @@ export default {
         height: 100%;
         display: flex;
         .modal-dialog-location {
+          -webkit-tap-highlight-color: transparent;
           cursor: pointer;
           padding: 10px 10px;
           border-radius: 10px;
@@ -325,7 +327,8 @@ export default {
             height: 100%;
             margin: 50px 0px;
             display: flex;
-
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
             @media screen and (max-width: 375px) {
               margin: 100px 0px;
             }
@@ -358,6 +361,8 @@ export default {
           @media screen and (max-width: 375px) {
             width: 100%;
           }
+
+          -webkit-tap-highlight-color: transparent;
           width: 33%;
           height: 60px;
           cursor: pointer;
@@ -385,6 +390,8 @@ export default {
             height: inherit;
             display: flex;
             flex-direction: column;
+
+            -webkit-tap-highlight-color: transparent;
           }
           &:hover {
             border: 1px solid black;
@@ -392,11 +399,13 @@ export default {
           }
         }
         .modal-dialog-button {
-          @media screen and (max-width: 375px) {
-            margin-top: 280px;
-            margin-left: 100px;
-          }
           width: 33%;
+          @media screen and (max-width: 375px) {
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+          }
+
           height: 60px;
           display: flex;
           align-items: center;
@@ -406,6 +415,10 @@ export default {
             display: flex;
             cursor: pointer;
             align-items: center;
+
+            @media screen and (max-width: 375px) {
+              width: 33%;
+            }
             padding: 10px 20px;
             border-radius: 10px;
             border: none;

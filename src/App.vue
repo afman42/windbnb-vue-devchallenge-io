@@ -66,6 +66,7 @@ function incOrDecValueNumber(type) {
       :valueGuests="guests"
       :incOrDecValueNumber="incOrDecValueNumber"
     />
+    <div class="footer">created by @afman42 - devChallenges.io</div>
   </div>
 </template>
 
@@ -84,5 +85,14 @@ function incOrDecValueNumber(type) {
   @media screen and (max-width: 375px) {
     margin: 5px 10px;
   }
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  color: #828282;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
 }
 </style>

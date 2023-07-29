@@ -64,9 +64,14 @@ const props = defineProps({
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  width: 100%;
   .cube-row {
-    margin-right: 10px;
+    padding-right: 8px;
     margin-bottom: 10px;
+    width: 33.33%;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
     display: flex;
     flex-direction: column;
     h3 {
@@ -115,14 +120,10 @@ const props = defineProps({
     }
   }
   img {
-    width: 370px;
+    width: 100%;
     height: 267px;
     border-radius: 10px;
-    @media screen and (max-width: 768px) {
-      width: 670px;
-    }
     @media screen and (max-width: 375px) {
-      width: 340px;
       height: 200px;
     }
   }
