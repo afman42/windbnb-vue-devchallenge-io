@@ -1,14 +1,35 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, reactive } from "vue";
 import Header from "./components/Header.vue";
 import Section from "./components/Section.vue";
 import ModalDialog from "./components/ModalDialog.vue";
 import data from "./stays.json";
 let showModal = ref(false);
-let city = ref("Helsinki");
-let guests = ref({
+let allData = reactive({
+  city: "Helsinki",
   adults: 0,
   children: 0,
+  changeCity(cty) {
+    this.city = cty;
+  },
+  incOrDecValueNumber(type) {
+    if (type.includes("addAdult")) {
+      this.adults = this.adults + 1;
+    }
+    if (type.includes("minAdult")) {
+      if (this.adults > 0) {
+        this.adults = this.adults - 1;
+      }
+    }
+    if (type.includes("addChildren")) {
+      this.children = this.children + 1;
+    }
+    if (type.includes("minChildren")) {
+      if (this.children > 0) {
+        this.children = this.children - 1;
+      }
+    }
+  },
 });
 function clickShowModal() {
   showModal.value = true;
@@ -16,10 +37,10 @@ function clickShowModal() {
 const dataComputed = computed(() => {
   return data
     .filter((item) => {
-      return item.city.includes(city.value);
+      return item.city.includes(allData.city);
     })
     .filter((item) => {
-      const sum = guests.value.children + guests.value.adults;
+      const sum = allData.children + allData.adults;
       return item.maxGuests >= sum;
     });
 });
@@ -30,27 +51,6 @@ const cityComputed = computed(() => {
     .map((item) => ({ city: item.city, country: item.country }))
     .filter(({ city }) => (set.has(city) ? false : set.add(city)));
 });
-function changeCity(cty) {
-  city.value = cty;
-}
-function incOrDecValueNumber(type) {
-  if (type.includes("addAdult")) {
-    guests.value.adults = guests.value.adults + 1;
-  }
-  if (type.includes("minAdult")) {
-    if (guests.value.adults > 0) {
-      guests.value.adults = guests.value.adults - 1;
-    }
-  }
-  if (type.includes("addChildren")) {
-    guests.value.children = guests.value.children + 1;
-  }
-  if (type.includes("minChildren")) {
-    if (guests.value.children > 0) {
-      guests.value.children = guests.value.children - 1;
-    }
-  }
-}
 </script>
 
 <template>
@@ -61,10 +61,10 @@ function incOrDecValueNumber(type) {
       :show="showModal"
       @close="showModal = false"
       :dataCity="cityComputed"
-      :value="city"
-      :changeCity="changeCity"
-      :valueGuests="guests"
-      :incOrDecValueNumber="incOrDecValueNumber"
+      :value="allData.city"
+      :changeCity="allData.changeCity"
+      :valueGuests="allData.guests"
+      :incOrDecValueNumber="allData.incOrDecValueNumber"
     />
     <div class="footer">created by @afman42 - devChallenges.io</div>
   </div>
