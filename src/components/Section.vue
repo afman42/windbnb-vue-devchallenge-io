@@ -6,13 +6,17 @@ const props = defineProps({
     default: [],
     required: true,
   },
+  dataLength: {
+    required: true,
+    type: Number,
+  },
 });
 </script>
 
 <template>
   <div class="section-container">
     <h1>Stays in Finland</h1>
-    <h6>12+ stays</h6>
+    <h6>{{ dataLength }} stays</h6>
   </div>
   <div class="cube">
     <div v-for="data in props.data" class="cube-row" :key="data.title">

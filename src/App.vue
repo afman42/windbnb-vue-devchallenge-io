@@ -1,46 +1,48 @@
 <script setup>
-import { ref, computed, reactive } from "vue";
+import { computed, reactive } from "vue";
 import Header from "./components/Header.vue";
 import Section from "./components/Section.vue";
 import ModalDialog from "./components/ModalDialog.vue";
 import data from "./stays.json";
-let showModal = ref(false);
 let allData = reactive({
+  showModal: false,
   city: "Helsinki",
-  adults: 0,
-  children: 0,
+  guests: {
+    adults: 0,
+    children: 0,
+  },
   changeCity(cty) {
-    this.city = cty;
+    allData.city = cty;
   },
   incOrDecValueNumber(type) {
     if (type.includes("addAdult")) {
-      this.adults = this.adults + 1;
+      allData.guests.adults = allData.guests.adults + 1;
     }
     if (type.includes("minAdult")) {
-      if (this.adults > 0) {
-        this.adults = this.adults - 1;
+      if (allData.guests.adults > 0) {
+        allData.guests.adults = allData.guests.adults - 1;
       }
     }
     if (type.includes("addChildren")) {
-      this.children = this.children + 1;
+      allData.guests.children = allData.guests.children + 1;
     }
     if (type.includes("minChildren")) {
-      if (this.children > 0) {
-        this.children = this.children - 1;
+      if (allData.guests.children > 0) {
+        allData.guests.children = allData.guests.children - 1;
       }
     }
   },
+  clickShowModal() {
+    allData.showModal = true;
+  },
 });
-function clickShowModal() {
-  showModal.value = true;
-}
 const dataComputed = computed(() => {
   return data
     .filter((item) => {
       return item.city.includes(allData.city);
     })
     .filter((item) => {
-      const sum = allData.children + allData.adults;
+      const sum = allData.guests.children + allData.guests.adults;
       return item.maxGuests >= sum;
     });
 });
@@ -55,11 +57,11 @@ const cityComputed = computed(() => {
 
 <template>
   <div class="container">
-    <Header :clickShowModal="clickShowModal" :value="city" />
-    <Section :data="dataComputed" />
+    <Header :clickShowModal="allData.clickShowModal" :value="allData.city" />
+    <Section :data="dataComputed" :dataLength="dataComputed.length" />
     <ModalDialog
-      :show="showModal"
-      @close="showModal = false"
+      :show="allData.showModal"
+      @close="allData.showModal = false"
       :dataCity="cityComputed"
       :value="allData.city"
       :changeCity="allData.changeCity"
